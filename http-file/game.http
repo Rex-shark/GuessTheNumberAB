@@ -1,0 +1,89 @@
+###建立game
+POST http://localhost:8080/api/line/guess/game/create
+Content-Type: application/json
+
+{
+  "userId": "user001",
+  "userName": "Rex",
+  "groupId": "group001",
+  "statusMessage": "",
+  "guess": ""
+}
+
+
+###加入玩家
+POST http://localhost:8080/api/line/guess/game/join
+Content-Type: application/json
+
+{
+  "userId": "user002",
+  "userName": "cat",
+  "groupId": "group001",
+  "statusMessage": "",
+  "guess": ""
+}
+
+###開始遊戲
+POST http://localhost:8080/api/line/guess/game/start
+Content-Type: application/json
+
+{
+  "userId": "",
+  "userName": "",
+  "groupId": "group001",
+  "statusMessage": "",
+  "guess": "1254",
+  "num": 4
+}
+
+###開始猜 Rex
+POST http://localhost:8080/api/line/guess/game/guess
+Content-Type: application/json
+
+{
+  "userId": "user001",
+  "userName": "Rex",
+  "groupId": "group001",
+  "statusMessage": "",
+  "guess": "8114",
+  "num": 0
+}
+
+###開始猜 cat
+POST http://localhost:8080/api/line/guess/game/guess
+Content-Type: application/json
+
+{
+  "userId": "user002",
+  "userName": "cat",
+  "groupId": "group001",
+  "statusMessage": "",
+  "guess": "4987",
+  "num": 0
+}
+
+###查房間
+POST {{host}}/api/line/guess/game/info
+Content-Type: application/json
+
+{
+  "userId": "user001",
+  "userName": "",
+  "groupId": "group001",
+  "statusMessage": "",
+  "guess": "",
+  "num": 0
+}
+
+###delete
+POST http://localhost:8080/api/line/guess/game/delete
+Content-Type: application/json
+
+{
+  "userId": "user001",
+  "userName": "Rex",
+  "groupId": "group001",
+  "statusMessage": "",
+  "guess": ""
+}
+

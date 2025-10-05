@@ -1,0 +1,9 @@
+### 查所有房間
+GET http://localhost:8080/sys/redis/rooms
+
+### 查單一房間
+GET http://localhost:8080/sys/redis/room/C1262e413e56d7405a9f86aa0da8280fe
+
+
+### 刪除
+DELETE http://localhost:8080/sys/redis/room/C1262e413e56d7405a9f86aa0da8280fe
