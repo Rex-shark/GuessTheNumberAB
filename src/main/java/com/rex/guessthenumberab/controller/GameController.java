@@ -59,12 +59,12 @@ public class GameController {
 
     //加入玩家
     @PostMapping("/join")
-    public ResponseEntity<ApiResponse> joinRoom(@RequestBody LineUserRequest lineUserRequest) {
+    public ResponseEntity<ApiResponse<Room>> joinRoom(@RequestBody LineUserRequest lineUserRequest) {
         String roomId = lineUserRequest.getGroupId();
         Optional<Object> existingRoom = redisService.getRoom(roomId);
 
         if (existingRoom.isEmpty()) {
-            ApiResponse response = new ApiResponse("Room not found", null);
+            ApiResponse<Room> response = new ApiResponse<>("Room not found", null);
             return ResponseEntity.status(404).body(response); // HTTP 404 表示未找到
         }
 
@@ -73,7 +73,7 @@ public class GameController {
             room.addPlayer(new GamePlayer(lineUserRequest.getUserId(), lineUserRequest.getUserName()));
             redisService.saveRoom(roomId, room, timeout, unit); // 更新房間資料
             String msg = lineUserRequest.getUserName() + "，加入遊戲！";
-            ApiResponse response = new ApiResponse(msg, room);
+            ApiResponse<Room> response = new ApiResponse<>(msg, room);
             return ResponseEntity.status(200).body(response);
         }catch (IllegalArgumentException e) {
             ApiResponse response = new ApiResponse("Error joining room: " + e.getMessage(), null);

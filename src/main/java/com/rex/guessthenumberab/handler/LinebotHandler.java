@@ -1,7 +1,10 @@
 package com.rex.guessthenumberab.handler;
 
 
+import com.linecorp.bot.client.base.Result;
 import com.linecorp.bot.messaging.model.Message;
+import com.linecorp.bot.messaging.model.UserProfileResponse;
+import com.linecorp.bot.webhook.model.*;
 import com.rex.guessthenumberab.model.LineBotResponse;
 import com.rex.guessthenumberab.service.LineGameService;
 import jakarta.annotation.Resource;
@@ -9,9 +12,9 @@ import jakarta.annotation.Resource;
 import com.linecorp.bot.messaging.model.TextMessage;
 import com.linecorp.bot.spring.boot.handler.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.handler.annotation.LineMessageHandler;
-import com.linecorp.bot.webhook.model.Event;
-import com.linecorp.bot.webhook.model.MessageEvent;
 import lombok.extern.slf4j.Slf4j;
+
+
 
 @Slf4j
 @LineMessageHandler
@@ -19,12 +22,55 @@ public class LinebotHandler {
 
     @Resource
     LineGameService lineGameService;
+
+
 //
 //
     @EventMapping
     public Message handleTextMessageEvent(MessageEvent event) {
 
         LineBotResponse lineBotResponse ;
+        System.out.println("\"aaa\" = " + "aaa");
+        System.out.println("event = " + event);
+        String userId = null;
+        Source source = event.source();
+        if (source instanceof GroupSource groupSource) {
+            System.out.println("🐾 這是群組訊息喵！");
+            System.out.println("群組 ID：" + groupSource.groupId());
+            MessageContent content = event.message();
+            userId = source.userId();
+            System.out.println("userId = " + userId);
+
+
+           // System.out.println("🐾 使用者名稱：" + userName);
+
+            if (content instanceof TextMessageContent textMessage) {
+                System.out.println("🗨️ 使用者傳的文字：" + textMessage.text());
+                //找出使用者id
+
+
+
+
+            } else if (content instanceof ImageMessageContent imageMessage) {
+                System.out.println("🖼️ 使用者傳了一張圖片喵！");
+                System.out.println("圖片 ID：" + imageMessage.id());
+            } else if (content instanceof StickerMessageContent sticker) {
+                System.out.println("💬 使用者傳了貼圖！");
+                System.out.println("貼圖 ID：" + sticker.stickerId());
+            } else {
+                System.out.println("📦 其他訊息類型：" + content.getClass().getSimpleName());
+            }
+
+        } else if (source instanceof RoomSource roomSource) {
+            System.out.println("🐾 這是多人聊天室訊息喵！");
+            System.out.println("聊天室 ID：" + roomSource.roomId());
+        } else if (source instanceof UserSource userSource) {
+            System.out.println("🐾 這是個人訊息喵！");
+            System.out.println("使用者 ID：" + userSource.userId());
+        } else {
+            System.out.println("😿 無法辨識來源類型喵！");
+        }
+
 
         try{
             lineBotResponse = lineGameService.PlayLineGame(event);
